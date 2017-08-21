@@ -1,0 +1,11 @@
+<resources>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="fab_elevation">6dp</dimen>
+    <dimen name="nothing">0dp</dimen>
+    <dimen name="press_translation">12dp</dimen>
+    <dimen name="list_item_weight">1</dimen>
+    <dimen name="bid_price_marg_end">10dp</dimen>
+    <dimen name="percent_change_margin">3dp</dimen>
+    <dimen name="dialog_stock_margin">4dp</dimen>
+
+</resources>
