@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
@@ -25,7 +26,7 @@ public class LinearWidgetService extends RemoteViewsService{
 
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        Log.d(LinearWidgetService.class.getSimpleName(), "Here");
+        Log.d(LinearWidgetService.class.getSimpleName(),"Here");
         return new LinearWidgetFactory(this.getApplicationContext());
     }
 }
@@ -56,11 +57,10 @@ class LinearWidgetFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public void onDataSetChanged() {
-        Uri QUOTE_URI = Contract.BASE_URI.buildUpon().appendPath(Contract.PATH_QUOTE).build();
         Log.d(TAG, "HERE'S JOHNNY");
         if(mCursor != null) mCursor.close();
         mCursor = mContext.getContentResolver().query(
-                QUOTE_URI,
+                Contract.Quote.URI,
                 null,
                 null,
                 null,
@@ -71,7 +71,11 @@ class LinearWidgetFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public void onDestroy() {
-
+        try{
+            mCursor.close();
+        }catch (Exception e){
+            Log.e(TAG, "Destroy error");
+        }
     }
 
     @Override
@@ -87,31 +91,18 @@ class LinearWidgetFactory implements RemoteViewsService.RemoteViewsFactory {
         RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.stock_widget);
 
         Log.d(TAG, "Cursor " + position);
-        views.setTextViewText(R.id.widget_change, ""+mCursor.getCount());
-        //views.setTextViewText(R.id.widget_symbol, mCursor.getString(Contract.Quote.POSITION_SYMBOL));
-        //views.setTextViewText(R.id.widget_change, dollarFormat.format(mCursor.getFloat(Contract.Quote.POSITION_PRICE)));
+        //views.setTextViewText(R.id.widget_change, ""+mCursor.getCount());
+        views.setTextViewText(R.id.widget_symbol, mCursor.getString(Contract.Quote.POSITION_SYMBOL));
+        views.setTextViewText(R.id.widget_change, dollarFormat.format(mCursor.getFloat(Contract.Quote.POSITION_PRICE)));
 
 
-        //float rawAbsoluteChange = mCursor.getFloat(Contract.Quote.POSITION_ABSOLUTE_CHANGE);
-        //float percentageChange = mCursor.getFloat(Contract.Quote.POSITION_PERCENTAGE_CHANGE);
+        Bundle extras = new Bundle();
+        extras.putString("Symobl_Key", mCursor.getString(Contract.Quote.POSITION_SYMBOL));
+        extras.putString("Price_Key", dollarFormat.format(mCursor.getFloat(Contract.Quote.POSITION_PRICE)));
 
-        //if (rawAbsoluteChange > 0) {
-            //holder.change.setBackgroundResource(R.drawable.percent_change_pill_green);
-        //    views.setInt(R.id.widget_change, "setBackgroundResource", R.drawable.percent_change_pill_green);
-        //} else {
-            //holder.change.setBackgroundResource(R.drawable.percent_change_pill_red);
-         //   views.setInt(R.id.widget_change, "setBackgroundResource", R.drawable.percent_change_pill_red);
-        //}
-
-       // String change = dollarFormatWithPlus.format(rawAbsoluteChange);
-       // String percentage = percentageFormat.format(percentageChange / 100);
-
-        //if (PrefUtils.getDisplayMode(mContext)
-         //       .equals(mContext.getString(R.string.pref_display_mode_absolute_key))) {
-        //    views.setTextViewText(R.id.widget_change, change);
-        //} else {
-        //    views.setTextViewText(R.id.widget_change, percentage);
-        //}
+        Intent fillIntent = new Intent();
+        fillIntent.putExtras(extras);
+        views.setOnClickFillInIntent(R.id.widget_symbol, fillIntent);
 
         return views;
     }
@@ -123,12 +114,12 @@ class LinearWidgetFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public int getViewTypeCount() {
-        return 0;
+        return 1;
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override

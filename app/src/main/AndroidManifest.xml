@@ -26,8 +26,7 @@
         <service
             android:name=".sync.QuoteIntentService"
             android:exported="false" />
-        <service android:name=".LinearWidgetService"
-            android:permission="android.permission.BIND_REMOTEVIEWS"/>
+
         <provider
             android:name=".data.StockProvider"
             android:authorities="com.udacity.stockhawk"
@@ -48,6 +47,9 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/stock_widget_info" />
         </receiver>
+
+        <service android:name=".LinearWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
 
     </application>
 
