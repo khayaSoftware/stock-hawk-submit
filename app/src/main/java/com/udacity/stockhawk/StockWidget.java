@@ -53,7 +53,7 @@ public class StockWidget extends AppWidgetProvider {
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_linear_view);
         Intent i = new Intent(context, LinearWidgetService.class);
-        views.setRemoteAdapter(R.layout.widget_linear_view, i);
+        views.setRemoteAdapter(R.id.widget_linear_view, i);
 
         Intent appIntent = new Intent(context, MainActivity.class);
         appIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,appWidgetId);
