@@ -15,6 +15,7 @@ import com.udacity.stockhawk.data.PrefUtils;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -32,10 +33,14 @@ class StockHistoryAdapter extends RecyclerView.Adapter<StockHistoryAdapter.Stock
     }
 
     class StockHistoryViewHolder extends RecyclerView.ViewHolder{
-        TextView symbol;
+        TextView date;
+        TextView low;
+        TextView high;
         StockHistoryViewHolder(View itemView) {
             super(itemView);
-            symbol = (TextView) itemView.findViewById(R.id.symbol_history);
+            date = (TextView) itemView.findViewById(R.id.history_date);
+            low = (TextView) itemView.findViewById(R.id.history_low);
+            high = (TextView) itemView.findViewById(R.id.history_high);
         }
     }
 
@@ -55,8 +60,13 @@ class StockHistoryAdapter extends RecyclerView.Adapter<StockHistoryAdapter.Stock
     @Override
     public void onBindViewHolder(StockHistoryViewHolder holder, int position) {
 
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        dateFormat.setCalendar(stocks.get(position).getDate());
+
         //holder.symbol.setText("Hello");
-        holder.symbol.setText(stocks.get(position).getLow().toString());
+        holder.date.setText(dateFormat.format(stocks.get(position).getDate().getTime()));
+        holder.low.setText(stocks.get(position).getLow().toString());
+        holder.high.setText(stocks.get(position).getHigh().toString());
 
     }
 
