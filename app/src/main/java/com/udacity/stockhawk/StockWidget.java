@@ -3,6 +3,7 @@ package com.udacity.stockhawk;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -19,7 +20,20 @@ public class StockWidget extends AppWidgetProvider {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        String intentAction = intent.getAction();
+        if (intentAction != null && intentAction.equals(AppWidgetManager.ACTION_APPWIDGET_UPDATE)){
+            AppWidgetManager manager = AppWidgetManager.getInstance(context);
+            ComponentName componentName = new ComponentName(context,StockWidget.class);
+            manager.notifyAppWidgetViewDataChanged(manager.getAppWidgetIds(componentName), R.id.widget_linear_view);
+        }
         super.onReceive(context, intent);
+    }
+
+    public static void updateFromContext(Context c){
+        Intent i = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        ComponentName thisWidget = new ComponentName(c,StockWidget.class);
+        i.setComponent(thisWidget);
+        c.sendBroadcast(i);
     }
 
     @Override
@@ -55,13 +69,8 @@ public class StockWidget extends AppWidgetProvider {
         Intent i = new Intent(context, LinearWidgetService.class);
         views.setRemoteAdapter(R.id.widget_linear_view, i);
 
-        Intent appIntent = new Intent(context, MainActivity.class);
-        appIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,appWidgetId);
-        appIntent.setData(Uri.parse(appIntent.toUri(Intent.URI_INTENT_SCHEME)));
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, appIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        views.setPendingIntentTemplate(R.id.widget_symbol,pendingIntent);
-        appWidgetManager.updateAppWidget(appWidgetId, views);
 
+        appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 
 }

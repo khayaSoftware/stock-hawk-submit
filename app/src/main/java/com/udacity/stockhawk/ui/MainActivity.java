@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.udacity.stockhawk.R;
+import com.udacity.stockhawk.StockWidget;
 import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.data.PrefUtils;
 import com.udacity.stockhawk.sync.QuoteSyncJob;
@@ -34,13 +36,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         StockAdapter.StockAdapterOnClickHandler {
 
     private static final int STOCK_LOADER = 0;
-    @SuppressWarnings("WeakerAccess")
+    private static final String WEAKACCESS = "WeakerAccess";
+    private static final String UNUSED_PARAMS = "UnusedParameters";
+    private static final String STOCK_FRAGMENT = "StockDialogFragment";
+
+    @SuppressWarnings(WEAKACCESS)
     @BindView(R.id.recycler_view)
     RecyclerView stockRecyclerView;
-    @SuppressWarnings("WeakerAccess")
+    @SuppressWarnings(WEAKACCESS)
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefreshLayout;
-    @SuppressWarnings("WeakerAccess")
+    @SuppressWarnings(WEAKACCESS)
     @BindView(R.id.error)
     TextView error;
     private StockAdapter adapter;
@@ -81,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
                 return false;
+
             }
 
             @Override
@@ -88,9 +95,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 String symbol = adapter.getSymbolAtPosition(viewHolder.getAdapterPosition());
                 PrefUtils.removeStock(MainActivity.this, symbol);
                 getContentResolver().delete(Contract.Quote.makeUriForStock(symbol), null, null);
+                onRefresh();
             }
-        }).attachToRecyclerView(stockRecyclerView);
 
+
+        }).attachToRecyclerView(stockRecyclerView);
 
     }
 
@@ -118,12 +127,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             error.setText(getString(R.string.error_no_stocks));
             error.setVisibility(View.VISIBLE);
         } else {
+            StockWidget.updateFromContext(this);
             error.setVisibility(View.GONE);
         }
     }
 
-    public void button(@SuppressWarnings("UnusedParameters") View view) {
-        new AddStockDialog().show(getFragmentManager(), "StockDialogFragment");
+    public void button(@SuppressWarnings(UNUSED_PARAMS) View view) {
+        new AddStockDialog().show(getFragmentManager(), STOCK_FRAGMENT);
     }
 
     void addStock(String symbol) {
@@ -138,6 +148,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
             PrefUtils.addStock(this, symbol);
             QuoteSyncJob.syncImmediately(this);
+            onRefresh();
         }
     }
 

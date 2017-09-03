@@ -37,10 +37,14 @@
     <string name="bid_price" translatable="false">1000.00</string>
     <string name="percent_change_percent" translatable="false">100%</string>
     <string name="fab_content_description" translatable="true">Add a stock</string>
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="configure">Configure</string>
-    <string name="add_widget">Add widget</string>
+    <string name="appwidget_text" translatable="true">EXAMPLE</string>
+    <string name="add_widget" translatable="true">Add widget</string>
 
-    <string name="symbol_key">EXTRA_SYMBOL</string>
-    <string name="title_activity_detail_stock">DetailStockActivity</string>
+    <string name="symbol_key" translatable="false">EXTRA_SYMBOL</string>
+    <string name="title_activity_detail_stock" translatable="false">DetailStockActivity</string>
+    <string name="weak_access" translatable="false">WeakerAccess</string>
+    <string name="unused_psrams" translatable="false">UnusedParameters</string>
+
+    <string name="symbol_widget_key" translatable="false">Symobl_Key</string>
+    <string name="price_widdget_key" translatable="false">Price_Key</string>
 </resources>

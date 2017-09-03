@@ -97,8 +97,8 @@ class LinearWidgetFactory implements RemoteViewsService.RemoteViewsFactory {
 
 
         Bundle extras = new Bundle();
-        extras.putString("Symobl_Key", mCursor.getString(Contract.Quote.POSITION_SYMBOL));
-        extras.putString("Price_Key", dollarFormat.format(mCursor.getFloat(Contract.Quote.POSITION_PRICE)));
+        extras.putString(mContext.getString(R.string.symbol_widget_key), mCursor.getString(Contract.Quote.POSITION_SYMBOL));
+        extras.putString(mContext.getString(R.string.price_widdget_key), dollarFormat.format(mCursor.getFloat(Contract.Quote.POSITION_PRICE)));
 
         Intent fillIntent = new Intent();
         fillIntent.putExtras(extras);

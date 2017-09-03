@@ -23,21 +23,12 @@
         android:gravity="end">
 
         <TextView
-            android:id="@+id/history_low"
-            style="@style/BidPriceTextStyle"
+            android:id="@+id/history_price"
+            style="@style/StockSymbolTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/bid_price_marg_end"
-            tools:text="@string/bid_price" />
-
-        <TextView
-            android:id="@+id/history_high"
-            style="@style/PercentChangeTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:gravity="start|center_vertical"
             android:background="@drawable/percent_change_pill_green"
-            android:paddingStart="@dimen/percent_change_margin"
-            android:paddingEnd="@dimen/percent_change_margin"
             tools:text="@string/percent_change_percent" />
     </LinearLayout>
 </LinearLayout>

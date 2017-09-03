@@ -17,10 +17,16 @@ import yahoofinance.Utils;
 import yahoofinance.YahooFinance;
 import yahoofinance.histquotes.HistoricalQuote;
 import yahoofinance.quotes.stock.StockQuote;
-
+;
 public class MockUtils {
 
-    public static String mockHistory =
+    private static final String STOCK_NAME = "STOCK NAME";
+    private static final String DATE_FORMAT = "dd/MM/yyyy";
+    private static final String NOT_AVAILABLE = "N/A";
+    private static final String DASH = "-";
+    private static final String EMPTY = "";
+    private static final String NAN = "nan";
+    public static final String mockHistory =
             "08/05/2017,68.970001,69.559998,68.040001,68.379997,20913200,68.379997\n" +
                     "01/05/2017,68.68,69.709999,68.489998,69,24889100,69\n" +
                     "24/04/2017,67.480003,69.139999,67.099998,68.459999,31679200,68.459999\n" +
@@ -149,7 +155,7 @@ public class MockUtils {
 
     private static HistoricalQuote parseCSVLine(String line) {
         String[] data = line.split(YahooFinance.QUOTES_CSV_DELIMITER);
-        return new HistoricalQuote("STOCK NAME",
+        return new HistoricalQuote(STOCK_NAME,
                 parseHistDate(data[0]),
                 Utils.getBigDecimal(data[1]),
                 Utils.getBigDecimal(data[3]),
@@ -161,7 +167,7 @@ public class MockUtils {
     }
 
     private static Calendar parseHistDate(String date) {
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+        SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT, Locale.US);
         try {
             if (isParseable(date)) {
                 Calendar c = Calendar.getInstance();
@@ -176,7 +182,7 @@ public class MockUtils {
     }
 
     private static boolean isParseable(String data) {
-        return !(data == null || data.equals("N/A") || data.equals("-")
-                || data.equals("") || data.equals("nan"));
+        return !(data == null || data.equals(NOT_AVAILABLE) || data.equals(DASH)
+                || data.equals(EMPTY) || data.equals(NAN));
     }
 }

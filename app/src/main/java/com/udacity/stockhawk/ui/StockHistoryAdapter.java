@@ -13,6 +13,7 @@ import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.data.PrefUtils;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -27,20 +28,19 @@ class StockHistoryAdapter extends RecyclerView.Adapter<StockHistoryAdapter.Stock
 
     public ArrayList<HistoricalQuote> stocks;
     private final Context context;
-
+    private static final String DAATE_FORMAT = "dd-MM-yyyy";
     StockHistoryAdapter(Context context) {
         this.context = context;
     }
 
     class StockHistoryViewHolder extends RecyclerView.ViewHolder{
         TextView date;
-        TextView low;
-        TextView high;
+        TextView price;
         StockHistoryViewHolder(View itemView) {
             super(itemView);
+
             date = (TextView) itemView.findViewById(R.id.history_date);
-            low = (TextView) itemView.findViewById(R.id.history_low);
-            high = (TextView) itemView.findViewById(R.id.history_high);
+            price = (TextView) itemView.findViewById(R.id.history_price);
         }
     }
 
@@ -60,13 +60,13 @@ class StockHistoryAdapter extends RecyclerView.Adapter<StockHistoryAdapter.Stock
     @Override
     public void onBindViewHolder(StockHistoryViewHolder holder, int position) {
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DAATE_FORMAT);
         dateFormat.setCalendar(stocks.get(position).getDate());
 
         //holder.symbol.setText("Hello");
         holder.date.setText(dateFormat.format(stocks.get(position).getDate().getTime()));
-        holder.low.setText(stocks.get(position).getLow().toString());
-        holder.high.setText(stocks.get(position).getHigh().toString());
+        BigDecimal closes = stocks.get(position).getClose();
+        holder.price.setText((closes.setScale(2, BigDecimal.ROUND_HALF_UP)).toString());
 
     }
 

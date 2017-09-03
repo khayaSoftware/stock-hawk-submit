@@ -7,6 +7,8 @@
     <dimen name="percent_change_margin">3dp</dimen>
     <dimen name="dialog_stock_margin">4dp</dimen>
     <dimen name="widget_height_and_width">40dp</dimen>
+    <dimen name="large_margin">50dp</dimen>
+
 
     <!--
 Refer to App Widget Documentation for margin information
