@@ -63,4 +63,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile 'com.jjoe64:graphview:4.2.1'
+    //compile 'com.jjoe64:graphview.series.DataPointInterface'
+    compile 'junit:junit:4.12'
 }

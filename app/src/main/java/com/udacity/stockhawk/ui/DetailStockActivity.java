@@ -11,10 +11,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.TextView;
+import com.jjoe64.graphview.series.DataPoint;
 
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.LineGraphSeries;
 import com.udacity.stockhawk.MockUtils;
 import com.udacity.stockhawk.R;
 
+//import org.junit.experimental.theories.DataPoint;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +29,7 @@ import yahoofinance.histquotes.HistoricalQuote;
 public class DetailStockActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ArrayList<HistoricalQuote>> {
 
     private TextView mSymbol;
+    private TextView mPrice;
     private RecyclerView mHistoryList;
     private String TAG = DetailStockActivity.class.getSimpleName();
     private List<HistoricalQuote> stocksList;
@@ -34,21 +41,19 @@ public class DetailStockActivity extends AppCompatActivity implements LoaderMana
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_stock);
 
-        mSymbol = (TextView) findViewById(R.id.symbol_history);
-
         Bundle extras = getIntent().getExtras();
+
+        getSupportActionBar().setTitle(getString(R.string.history_text) + extras.getString(getString(R.string.symbol_key)));
+        mSymbol = (TextView) findViewById(R.id.symbol_history);
+        mPrice = (TextView) findViewById(R.id.price_history);
+
         mSymbol.setText(extras.getString(getString(R.string.symbol_key)));
+
 
         loadHistory();
     }
 
     public void loadHistory(){
-        mHistoryList = (RecyclerView) findViewById(R.id.rv_stock_history);
-        LinearLayoutManager layoutMg = new LinearLayoutManager(this);
-        mHistoryList.setLayoutManager(layoutMg);
-        stockHistoryAdapter = new StockHistoryAdapter(this);
-        mHistoryList.setHasFixedSize(true);
-        mHistoryList.setAdapter(stockHistoryAdapter);
 
         Bundle bundle = new Bundle();
         LoaderManager lm = getLoaderManager();
@@ -90,7 +95,19 @@ public class DetailStockActivity extends AppCompatActivity implements LoaderMana
     @Override
     public void onLoadFinished(Loader<ArrayList<HistoricalQuote>> loader, ArrayList<HistoricalQuote> data) {
         if(stocksList != null){
-            stockHistoryAdapter.setStocks((ArrayList<HistoricalQuote>) stocksList);
+            GraphView graph = (GraphView) findViewById(R.id.graph);
+
+            DataPoint[] dps = new DataPoint[stocksList.size()];
+
+            for (int i = 0;i < stocksList.size();++i){
+                Integer xi = i;
+                Integer yi = stocksList.get(i).getClose().intValue();
+                DataPoint dp = new DataPoint(xi,yi);
+                dps[i] = dp;
+            }
+
+            LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dps);
+            graph.addSeries(series);
         }
     }
 

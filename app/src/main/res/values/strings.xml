@@ -47,4 +47,6 @@
 
     <string name="symbol_widget_key" translatable="false">Symobl_Key</string>
     <string name="price_widdget_key" translatable="false">Price_Key</string>
+
+    <string name="history_text" translatable="true">History of &nbsp;</string>
 </resources>
