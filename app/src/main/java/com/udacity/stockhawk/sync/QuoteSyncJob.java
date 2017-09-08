@@ -8,8 +8,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.widget.Toast;
 
 import com.udacity.stockhawk.MockUtils;
+import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.data.PrefUtils;
 
@@ -106,6 +108,9 @@ public final class QuoteSyncJob {
 
                         quoteCVs.add(quoteCV);
                     }
+                }
+                else{
+                    Toast.makeText(context, R.string.error_no_stocks, Toast.LENGTH_LONG);
                 }
             }
 

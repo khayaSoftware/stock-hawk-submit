@@ -105,7 +105,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     PrefUtils.removeStock(MainActivity.this, symbol);
                 }
                 getContentResolver().delete(Contract.Quote.makeUriForStock(symbol), null, null);
-                StockWidget.updateFromContext(MainActivity.this);
                 onRefresh();
             }
 
@@ -145,8 +144,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     public void button(@SuppressWarnings(UNUSED_PARAMS) View view) {
         new AddStockDialog().show(getFragmentManager(), STOCK_FRAGMENT);
-        StockWidget.updateFromContext(MainActivity.this);
-        onRefresh();
     }
 
     void addStock(String symbol) {
@@ -163,8 +160,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             QuoteSyncJob.syncImmediately(this);
 
         }
-        StockWidget.updateFromContext(MainActivity.this);
-        onRefresh();
     }
 
     @Override
@@ -184,7 +179,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
         adapter.setCursor(data);
         StockWidget.updateFromContext(MainActivity.this);
-        onRefresh();
     }
 
 
@@ -193,7 +187,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         swipeRefreshLayout.setRefreshing(false);
         adapter.setCursor(null);
         StockWidget.updateFromContext(MainActivity.this);
-        onRefresh();
     }
 
 
