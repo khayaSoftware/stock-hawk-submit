@@ -2,10 +2,12 @@ package com.udacity.stockhawk.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -67,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
@@ -93,8 +96,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 String symbol = adapter.getSymbolAtPosition(viewHolder.getAdapterPosition());
-                PrefUtils.removeStock(MainActivity.this, symbol);
+                if(adapter.getItemCount() == 1){
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.clear();
+                    editor.apply();
+                }else{
+                    PrefUtils.removeStock(MainActivity.this, symbol);
+                }
                 getContentResolver().delete(Contract.Quote.makeUriForStock(symbol), null, null);
+                StockWidget.updateFromContext(MainActivity.this);
                 onRefresh();
             }
 
@@ -134,6 +145,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     public void button(@SuppressWarnings(UNUSED_PARAMS) View view) {
         new AddStockDialog().show(getFragmentManager(), STOCK_FRAGMENT);
+        StockWidget.updateFromContext(MainActivity.this);
+        onRefresh();
     }
 
     void addStock(String symbol) {
@@ -148,8 +161,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
             PrefUtils.addStock(this, symbol);
             QuoteSyncJob.syncImmediately(this);
-            onRefresh();
+
         }
+        StockWidget.updateFromContext(MainActivity.this);
+        onRefresh();
     }
 
     @Override
@@ -168,6 +183,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             error.setVisibility(View.GONE);
         }
         adapter.setCursor(data);
+        StockWidget.updateFromContext(MainActivity.this);
+        onRefresh();
     }
 
 
@@ -175,6 +192,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public void onLoaderReset(Loader<Cursor> loader) {
         swipeRefreshLayout.setRefreshing(false);
         adapter.setCursor(null);
+        StockWidget.updateFromContext(MainActivity.this);
+        onRefresh();
     }
 
 

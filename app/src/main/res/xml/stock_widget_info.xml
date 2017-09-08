@@ -2,8 +2,8 @@
 <!-- Add custom margin for older versions -->
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:initialLayout="@layout/widget_linear_view"
-    android:minHeight="110dp"
-    android:minWidth="250dp"
+    android:minHeight="@dimen/widget_min_height"
+    android:minWidth="@dimen/widget_min_width"
     android:previewImage="@drawable/ic_dollar"
-    android:updatePeriodMillis="1800000"
+    android:updatePeriodMillis="1"
     android:widgetCategory="home_screen"/>

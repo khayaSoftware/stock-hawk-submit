@@ -36,17 +36,19 @@ class LinearWidgetFactory implements RemoteViewsService.RemoteViewsFactory {
     private final DecimalFormat dollarFormatWithPlus;
     private final DecimalFormat dollarFormat;
     private final DecimalFormat percentageFormat;
+    private static final String DOLLAR_SIGN = "+$";
+    private static final String PLUS_SIGN = "+";
     Cursor mCursor;
 
     public LinearWidgetFactory(Context appContext){
         mContext = appContext;
         dollarFormat = (DecimalFormat) NumberFormat.getCurrencyInstance(Locale.US);
         dollarFormatWithPlus = (DecimalFormat) NumberFormat.getCurrencyInstance(Locale.US);
-        dollarFormatWithPlus.setPositivePrefix("+$");
+        dollarFormatWithPlus.setPositivePrefix(DOLLAR_SIGN);
         percentageFormat = (DecimalFormat) NumberFormat.getPercentInstance(Locale.getDefault());
         percentageFormat.setMaximumFractionDigits(2);
         percentageFormat.setMinimumFractionDigits(2);
-        percentageFormat.setPositivePrefix("+");
+        percentageFormat.setPositivePrefix(PLUS_SIGN);
     }
 
 

@@ -8,7 +8,9 @@
     <dimen name="dialog_stock_margin">4dp</dimen>
     <dimen name="widget_height_and_width">40dp</dimen>
     <dimen name="large_margin">50dp</dimen>
-
+    <dimen name="fab_height">24dp</dimen>
+    <dimen name="widget_min_height">110dp</dimen>
+    <dimen name="widget_min_width">250dp</dimen>
 
     <!--
 Refer to App Widget Documentation for margin information

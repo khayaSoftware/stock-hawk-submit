@@ -28,6 +28,8 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
     private final DecimalFormat percentageFormat;
     private Cursor cursor;
     private final StockAdapterOnClickHandler clickHandler;
+    private static final String DOLLAR_SIGN = "+$";
+    private static final String PLUS_SIGN = "+";
 
     StockAdapter(Context context, StockAdapterOnClickHandler clickHandler) {
         this.context = context;
@@ -35,11 +37,11 @@ class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
 
         dollarFormat = (DecimalFormat) NumberFormat.getCurrencyInstance(Locale.US);
         dollarFormatWithPlus = (DecimalFormat) NumberFormat.getCurrencyInstance(Locale.US);
-        dollarFormatWithPlus.setPositivePrefix("+$");
+        dollarFormatWithPlus.setPositivePrefix(DOLLAR_SIGN);
         percentageFormat = (DecimalFormat) NumberFormat.getPercentInstance(Locale.getDefault());
         percentageFormat.setMaximumFractionDigits(2);
         percentageFormat.setMinimumFractionDigits(2);
-        percentageFormat.setPositivePrefix("+");
+        percentageFormat.setPositivePrefix(PLUS_SIGN);
     }
 
     void setCursor(Cursor cursor) {
