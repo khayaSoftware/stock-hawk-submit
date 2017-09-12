@@ -67,6 +67,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         startActivity(intentToStart);
     }
 
+    //TODO REQUIREMENT "App does not crash, force close, freeze..."
+    //TODO The app repeatedly Force Closes.
+    //TODO Put device in airplane mode, install app, add widget (not visible), add stock quotes (ZZZZX, FB), turn airplane mode off
+    //TODO => app repeatedly force closes
+
+    //TODO SUGGESTION When you add the widget with no stock quotes - it does not appear on the home screen
+    //TODO  - this is confusing to the user => UX--
+
+    //TODO SUGGESTION The stock quote for ZZZZX is listed as $100.00 and increase of $100.00 or +99,999,800.00% which could be worthy of further investigation
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 

@@ -111,6 +111,7 @@ public final class QuoteSyncJob {
                 }
                 else{
                     Toast.makeText(context, R.string.error_no_stocks, Toast.LENGTH_LONG);
+                    //TODO SUGGESTION If you're going to the trouble of making a Toast, you might aswell .show() it ;)
                 }
             }
 

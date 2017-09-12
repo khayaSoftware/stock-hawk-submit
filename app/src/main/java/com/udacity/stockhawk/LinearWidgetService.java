@@ -21,6 +21,8 @@ import java.util.Locale;
  * Created by noybs on 22/08/2017.
  */
 
+//TODO SUGGESTION Wow this noybs person is a prolific programmer, maybe s/he should get the Cert ;)
+
 public class LinearWidgetService extends RemoteViewsService{
 
 
