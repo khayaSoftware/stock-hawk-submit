@@ -36,6 +36,8 @@ public class DetailStockActivity extends AppCompatActivity implements LoaderMana
     private StockHistoryAdapter stockHistoryAdapter;
     private static final int LOADER_ID = 1236;
 
+    // TODO SUGGESTION The graph should be labelled, what is being plotted against what?
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
